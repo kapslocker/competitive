@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Training & Placement, IITD</title>
+  <base href="/portal/">
+  <meta name="viewport" content="width=1024, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<link rel="stylesheet" href="styles.95c2ce3fddf523b1a7ae.css"></head>
+<body>
+  <app-root></app-root>
+<script type="text/javascript" src="runtime.5d8845365ca94341b88e.js"></script><script type="text/javascript" src="polyfills.764c1ee7f0d5e0121f6e.js"></script><script type="text/javascript" src="main.89855c0abe45c4b10365.js"></script></body>
+</html>
