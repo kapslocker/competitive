@@ -24,7 +24,35 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 #define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 
+
+int a, b, x, y;
+int f(int g) {
+    return (g * x <= a) && (g * y <= b);
+}
+
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int g;
+    cin >> a >> b >> x >> y;
+    g = gcd(x, y);
+    x = x / g;
+    y = y / g;
+    int low = 1, high = min(a, b), mid;
+    while(low <= high) {
+        mid = (low + high) / 2;
+        if(f(mid)) {
+            if(!f(mid + 1)) {
+                cout << mid * x << " " << mid * y << endl;
+                return 0;
+            }
+            low = mid + 1;
+        }
+        else
+            high = mid - 1;
+    }
+    if(f(low))
+        cout << low * x << " " << low * y << endl;
+    else
+        cout << 0 << " " << 0 << endl;
     return 0;
 }

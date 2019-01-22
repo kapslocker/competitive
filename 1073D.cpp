@@ -26,5 +26,23 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int n, t, s = 0, ans = 0;
+    cin >> n >> t;
+    vector<int> arr(n);
+    for(int i = 0; i < n; i++) {
+        cin >> arr[i];
+        s += arr[i];
+    }
+    sort(arr.begin(), arr.end());
+    ans = t / s;
+    t = t - ans * s;
+    ans = ans * n;
+    for(int i = 0; i < n; i++) {
+        if(t < arr[i])
+            continue;
+        t = t - arr[i];
+        ans++;
+    }
+    cout << ans << endl;
     return 0;
 }

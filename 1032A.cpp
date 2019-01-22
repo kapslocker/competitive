@@ -26,5 +26,20 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int n, k, a, maxval = INT_MIN, m;
+    cin >> n >> k;
+    map<int, int> count;
+    for(int i = 0; i < n; i++) {
+        cin >> a;
+        count[a]++;
+    }
+    for(auto &v : count) {
+        maxval = max(v.second, maxval);
+    }
+    m = (maxval - 1) / k + 1;
+    int ans = 0;
+    for(auto &v : count)
+        ans += k * m - v.second;
+    cout << ans << endl;
     return 0;
 }

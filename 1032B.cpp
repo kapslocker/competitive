@@ -26,5 +26,24 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    string s;
+    cin >> s;
+    int n = s.length();
+    int r = (n - 1) / 20 + 1, c = (n - 1)/ r + 1;
+    cout << r << " " << c << endl;
+    vector<vector<char> > mat(r, vector<char>(c, ' '));
+    int n_s = r * c - n;
+    for(int i = 0; i < n_s; i++)
+        mat[i][0] = '*';
+    int p = 0;
+    for(int i = 0; i < r; i++) {
+        for(int j = 0; j < c; j++) {
+            if(mat[i][j] == ' ') {
+                mat[i][j] = s[p++];
+            }
+            cout << mat[i][j];
+        }
+        cout << endl;
+    }
     return 0;
 }

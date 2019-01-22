@@ -26,5 +26,11 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    fstream fout;
+    fout.open("input.txt", ios::out);
+    fout << 200000;
+    for(int i = 1; i <= 200000; i++) {
+        fout << 1000000000 << " ";
+    }
     return 0;
 }

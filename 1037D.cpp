@@ -24,20 +24,50 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 #define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 
-const int mod = 1000000007;
+
+unordered_map<int, int> idx;
+bool compare(int a, int b) {
+    return idx[a] < idx[b];
+}
+
 int32_t main() {
-    int n, seven = 0, sodd = 0, ans = 0;
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int n, a, b, u;
     cin >> n;
+    unordered_map<int, vector<int> > graph;
+    for(int i = 0; i < n - 1; i++) {
+        cin >> a >> b;
+        graph[a].push_back(b);
+        graph[b].push_back(a);
+    }
+    vector<int> seq(n);
+    for(int i = 0; i < n; i++) {
+        cin >> seq[i];
+        idx[seq[i]] = i;
+    }
     for(int i = 1; i <= n; i++) {
-        if(i % 2 == 0) {
-            seven = (seven + sodd + 1) % mod;
-            ans = (ans + seven) % mod;
-        }
-        else {
-            sodd = (sodd + seven + 1) % mod;
-            ans = (ans + sodd) % mod;
+        sort(graph[i].begin(), graph[i].end(), compare);
+    }
+    vector<int> bfs;
+    queue<int> q;
+    q.push(1);
+    vector<int> visited(n + 1, 0);
+    while(!q.empty()) {
+        u = q.front();
+        q.pop();
+        bfs.push_back(u);
+        visited[u] = 1;
+        for(auto &v : graph[u]) {
+            if(!visited[v])
+                q.push(v);
         }
     }
-    cout << (seven + sodd) % mod << endl;
+    for(int i = 0; i < n; i++) {
+        if(seq[i] != bfs[i]) {
+            cout << "No\n";
+            return 0;
+        }
+    }
+    cout << "Yes\n";
     return 0;
 }

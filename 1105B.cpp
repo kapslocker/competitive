@@ -26,5 +26,30 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int n, k;
+    cin >> n >> k;
+    string s;
+    cin >> s;
+    int ans = 0;
+    for(char ch = 'a'; ch <= 'z'; ch++) {
+        int i = 0, j = 0, count = 0;
+        while(i < n) {
+            if(s[i] != ch) {
+                i++;
+                continue;
+            }
+            j = i;
+            while(j < n && s[j] == ch) {
+                j++;
+                if(j - i == k) {
+                    count++;
+                    break;
+                }
+            }
+            i = j;
+        }
+        ans = max(ans, count);
+    }
+    cout << ans << endl;
     return 0;
 }

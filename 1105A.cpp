@@ -26,5 +26,23 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    for(int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    int minv = INT_MAX, t;
+    for(int i = 1; i <= 100; i++) {
+        int val = 0;
+        for(int j = 0; j < n; j++) {
+            val = val + min(abs(i - arr[j]), min(abs(i - arr[j] + 1), abs(i - arr[j] - 1)));
+        }
+        if(val < minv) {
+            minv = val;
+            t = i;
+        }
+    }
+    cout << t << " " << minv << endl;
     return 0;
 }
