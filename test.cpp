@@ -1,36 +1,29 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-#define int long long
-
-
-template<class L, class R> ostream &operator<<(ostream &os, pair<L,R> P) {
-  return os << "(" << P.first << "," << P.second << ")";
-}
-template<class T> ostream &operator<<(ostream &os, set<T> V) {
-  os << "["; for (auto vv : V) os << vv << ","; return os << "]";
-}
-template<class T> ostream &operator<<(ostream& os, vector<T> V) {
-  os << "["; for (auto vv : V) os << vv << ","; return os << "]";
-}
-template<class K, class X> ostream &operator<<(ostream& os, map<K,X> V) {
-  os << "["; for (auto vv : V) os << vv << ","; return os << "]";
-}
-
-void debug_out() { cerr << endl; }
-
-template <typename Head, typename... Tail>
-void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
-
-#define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
-
-int32_t main() {
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    fstream fout;
-    fout.open("input.txt", ios::out);
-    fout << 200000;
-    for(int i = 1; i <= 200000; i++) {
-        fout << 1000000000 << " ";
+int main() {
+    string str;
+    cin >> str;
+    int n = str.length(), i = 4, j = n - 1;
+    vector<char> curr = {'h', 'e', 'l', 'l', 'o'};
+    bool found = true;
+    while(found) {
+        while(j >= 0 && str[j] != curr[i])
+            j--;
+        if(j < 0)
+            found = false;
+        else {
+            i--;
+            j--;
+            if(i == -1)
+                break;
+        }
     }
+    if(!found)
+        cout << "NO\n";
+    else
+        cout << "YES\n";
     return 0;
 }

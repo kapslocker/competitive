@@ -26,25 +26,38 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    int n, MAX = 1024 * 1024 + 10, ans = 0;
+    int n;
     cin >> n;
-    vector<int> odds(MAX, 0), evens(MAX, 0), arr(n + 1);
-    for(int i = 1; i <= n; i++) {
+    vector<int> arr(n + 1, 0);
+    vector<vector<int> > dp(n + 1, vector<int>(n + 1, INT_MAX));
+    for(int i = 0; i < n; i++) {
+        dp[n][i] = 0;
+        dp[i][n] = 0;
+    }
+    for(int i = 0; i < n; i++) {
         cin >> arr[i];
     }
-    for(int i = 1; i <= n; i++) {
-        arr[i] = arr[i] ^ arr[i - 1];
-    }
-    for(int l = n; l >= 1; l--) {
-        if(l % 2 == 0) {
-            ans += odds[arr[l-1]];
-            evens[arr[l]]++;
+    for(int i = n - 1; i >= 0; i--) {
+        for(int j = n - 1; j >= 0; j--) {
+            if(i > j) {
+                dp[i][j] = 0;
+                continue;
+            }
+            if(i == j) {
+                dp[i][j] = 1;
+                continue;
+            }
+            dp[i][j] = min(dp[i][j], 1 + dp[i + 1][j]);
+            for(int k = i + 2; k <= j; k++) {
+                if(arr[i] == arr[k]) {
+                    dp[i][j] = min(dp[i + 1][k - 1] + dp[k + 1][j], dp[i][j]);
+                }
+            }
+            if(arr[i] == arr[i + 1]) {
+                dp[i][j] = min(dp[i][j], 1 + dp[i + 2][j]);
+            }
         }
-        else {
-            ans += evens[arr[l-1]];
-            odds[arr[l]]++;
-        }
     }
-    cout << ans << endl;
+    cout << dp[0][n - 1] << endl;
     return 0;
 }

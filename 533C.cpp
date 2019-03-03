@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define int long long
+
+
 template<class L, class R> ostream &operator<<(ostream &os, pair<L,R> P) {
   return os << "(" << P.first << "," << P.second << ")";
 }
@@ -21,46 +24,21 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 #define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 
-
-bool check0(string &str) {
-    int len = str.length();
-    int mid = (len) / 2;
-    for(int i = 0; i < mid; i++) {
-        if(str[i] != str[0])
-            return false;
-    }
-    return true;
-}
-
-inline bool checkpalin(string &str) {
-    string rev = str;
-    reverse(rev.begin(), rev.end());
-    return rev == str;
-}
-
-bool check1(string &str) {
-    for(int i = 1; i < str.length() - 1; i++) {
-        string a = str.substr(0, i), b = str.substr(i);
-        string c = b + a;
-        if(checkpalin(c) && (c != str))
-            return true;
-    }
-    return false;
-}
-
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    string str;
-    cin >> str;
-    if(check0(str)) {
-        cout << "Impossible\n";
-        return 0;
+    int x1, y1, x2, y2;
+    cin >> x1 >> y1 >> x2 >> y2;
+    int a = x1 + y1, b = max(x2, y2);
+    if(x1 <= x2 && y1 <= y2) {
+        cout << "Polycarp\n";
     }
-    if(check1(str)) {
-        cout << 1 << endl;
+    else if(x2 == b && y1 <= x2 - x1) {
+        cout << "Polycarp\n";
     }
-    else {
-        cout << 2 << endl;
+    else if(y2 == b && x1 <= y2 - y1) {
+        cout << "Polycarp\n";
     }
+    else
+        cout << "Vasiliy\n";
     return 0;
 }

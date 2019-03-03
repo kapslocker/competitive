@@ -25,33 +25,40 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 #define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 
 
-int solve(int wt, vector<int> &s, int idx) {
-    if(idx == s.size())
-        return 0;
-    if(wt == 0 || wt > s[idx])
-        return 0;
-    if(wt % 2 != 0)
-        return wt;
-    int b = solve(wt / 2, s, idx + 1);
-    return wt + b;
-}
-
-int32_t main() {
-    int n, a;
-    scanf("%d", &n);
-    vector<int> mset;
-    map<int, int> freq;
+map<string, int> dp;
+int solve(string s, vector<int> &reward) {
+    int n = s.length();
+    if(s.length() == 1)
+        return reward[0];
+    if(dp.find(s) != dp.end())
+        return dp[s];
+    vector<vector<int> > pre(n, vector<int>(2, 0));
     for(int i = 0; i < n; i++) {
-        scanf("%d", &a);
-        freq[a]++;
+        pre[i][0] = i > 0 ? pre[i - 1][0] : 0;
+        pre[i][1] = i > 0 ? pre[i - 1][1] : 0;
+        pre[i][0] += (s[i] == '0');
+        pre[i][1] += (s[i] == '1');
     }
-    for(auto &v : freq)
-        mset.push_back(v.second);
-    sort(mset.begin(), mset.end(), greater<int>());
     int ans = 0;
-    for(int i = 1; i <= mset[0]; i++) {
-        ans = max(ans, solve(i, mset, 0));
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < i; j++) {
+            if(pre[i][0] == pre[j + 1][0] || pre[i][1] == pre[j + 1][1]) {
+                ans = max(ans, reward[i - j - 1] + solve(s.substr(0, j + 1) + s.substr(i + 1), reward));
+            }
+        }
     }
-    printf("%d\n", ans);
+    dp[s] = ans;
+    return ans;
+}
+int32_t main() {
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    vector<int> a(n);
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    cout << solve(s, a) << endl;
     return 0;
 }

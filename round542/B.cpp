@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define int long long
+
+
 template<class L, class R> ostream &operator<<(ostream &os, pair<L,R> P) {
   return os << "(" << P.first << "," << P.second << ")";
 }
@@ -21,46 +24,33 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 #define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 
-
-bool check0(string &str) {
-    int len = str.length();
-    int mid = (len) / 2;
-    for(int i = 0; i < mid; i++) {
-        if(str[i] != str[0])
-            return false;
-    }
-    return true;
-}
-
-inline bool checkpalin(string &str) {
-    string rev = str;
-    reverse(rev.begin(), rev.end());
-    return rev == str;
-}
-
-bool check1(string &str) {
-    for(int i = 1; i < str.length() - 1; i++) {
-        string a = str.substr(0, i), b = str.substr(i);
-        string c = b + a;
-        if(checkpalin(c) && (c != str))
-            return true;
-    }
-    return false;
-}
-
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    string str;
-    cin >> str;
-    if(check0(str)) {
-        cout << "Impossible\n";
-        return 0;
+    int n;
+    cin >> n;
+    vector<int> arr(2 * n);
+    map<int, vector<int> > pos;
+    for(int i = 0; i < 2 * n; i++) {
+        cin >> arr[i];
+        pos[arr[i]].push_back(i);
     }
-    if(check1(str)) {
-        cout << 1 << endl;
+    int cs = 0, cd = 0, count = 0, dist = 0;
+    while(count < n) {
+        int curr = count + 1;
+        int pa = pos[curr][0], pb = pos[curr][1];
+        int d1 = abs(cs - pa) + abs(cd - pb);
+        int d2 = abs(cs - pb) + abs(cd - pa);
+        if(d1 <= d2) {
+            cs = pa;
+            cd = pb;
+        }
+        else {
+            cs = pb;
+            cd = pa;
+        }
+        dist += min(d1, d2);
+        count++;
     }
-    else {
-        cout << 2 << endl;
-    }
+    cout << dist << endl;
     return 0;
 }

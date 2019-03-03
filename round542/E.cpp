@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define int long long
+
+
 template<class L, class R> ostream &operator<<(ostream &os, pair<L,R> P) {
   return os << "(" << P.first << "," << P.second << ")";
 }
@@ -21,46 +24,35 @@ void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
 
 #define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
 
-
-bool check0(string &str) {
-    int len = str.length();
-    int mid = (len) / 2;
-    for(int i = 0; i < mid; i++) {
-        if(str[i] != str[0])
-            return false;
+void print(int x, int l, int n) {
+    cout << l << endl;
+    for(int i = 0; i < l - 2; i++) {
+        cout << 0 << " ";
     }
-    return true;
-}
-
-inline bool checkpalin(string &str) {
-    string rev = str;
-    reverse(rev.begin(), rev.end());
-    return rev == str;
-}
-
-bool check1(string &str) {
-    for(int i = 1; i < str.length() - 1; i++) {
-        string a = str.substr(0, i), b = str.substr(i);
-        string c = b + a;
-        if(checkpalin(c) && (c != str))
-            return true;
-    }
-    return false;
+    cout << -n << " " << x << endl;
 }
 
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    string str;
-    cin >> str;
-    if(check0(str)) {
-        cout << "Impossible\n";
+    int k;
+    cin >> k;
+    int maxval = 1000000;
+    if(k <= maxval) {
+        cout << 1 << endl << -k << endl;
         return 0;
     }
-    if(check1(str)) {
-        cout << 1 << endl;
+    for(int l = 2; l <= 2000; l++) {
+        for(int j = 1; j <= 2000; j++) {
+            int h = k + j * l;
+            if(h % (l - 1) == 0) {
+                int x = h / (l - 1);
+                if(x <= maxval) {
+                    print(x, l, j);
+                    return 0;
+                }
+            }
+        }
     }
-    else {
-        cout << 2 << endl;
-    }
+    cout << -1 << endl;
     return 0;
 }
