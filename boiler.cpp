@@ -5,16 +5,16 @@ using namespace std;
 
 
 template<class L, class R> ostream &operator<<(ostream &os, pair<L,R> P) {
-  return os << "(" << P.first << "," << P.second << ")";
+    return os << "(" << P.first << "," << P.second << ")";
 }
 template<class T> ostream &operator<<(ostream &os, set<T> V) {
-  os << "["; for (auto vv : V) os << vv << ","; return os << "]";
+    os << "["; for (auto vv : V) os << vv << ","; return os << "]";
 }
 template<class T> ostream &operator<<(ostream& os, vector<T> V) {
-  os << "["; for (auto vv : V) os << vv << ","; return os << "]";
+    os << "["; for (auto vv : V) os << vv << ","; return os << "]";
 }
 template<class K, class X> ostream &operator<<(ostream& os, map<K,X> V) {
-  os << "["; for (auto vv : V) os << vv << ","; return os << "]";
+    os << "["; for (auto vv : V) os << vv << ","; return os << "]";
 }
 
 void debug_out() { cerr << endl; }
