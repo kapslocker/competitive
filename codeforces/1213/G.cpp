@@ -3,27 +3,6 @@ using namespace std;
 
 #define int long long
 
-
-template<class L, class R> ostream &operator<<(ostream &os, pair<L,R> P) {
-    return os << "(" << P.first << "," << P.second << ")";
-}
-template<class T> ostream &operator<<(ostream &os, set<T> V) {
-    os << "["; for (auto vv : V) os << vv << ","; return os << "]";
-}
-template<class T> ostream &operator<<(ostream& os, vector<T> V) {
-    os << "["; for (auto vv : V) os << vv << ","; return os << "]";
-}
-template<class K, class X> ostream &operator<<(ostream& os, map<K,X> V) {
-    os << "["; for (auto vv : V) os << vv << ","; return os << "]";
-}
-
-void debug_out() { cerr << endl; }
-
-template <typename Head, typename... Tail>
-void debug_out(Head H, Tail...T) { cerr << " " << H; debug_out(T...); }
-
-#define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
-
 class dsu{
     int MAX;
 public:
@@ -32,7 +11,7 @@ public:
     dsu(int range) {
         MAX = range + 10;
         parent.resize(MAX, -1);
-        sz.resize(MAX, 1);
+        sz.resize(MAX, 1ll);
     }
     int find(int x) {
         if(parent[x] == -1) {
@@ -46,7 +25,7 @@ public:
         int s = find(y);
         if(r != s) {
             parent[r] = s;
-            sz[r] += sz[s];
+            sz[s] += sz[r];
         }
     }
 };
@@ -61,12 +40,12 @@ int32_t main() {
         cin >> u >> v >> w;
         tree.push_back({w, {u, v}});
     }
-    map<int, pair<int, int> > queries;
+    sort(tree.begin(), tree.end());
+    multimap<int, pair<int, int> > queries;
     for(int i = 0; i < m; i++) {
         int x;
         cin >> x;
-        queries[x].first = i;
-        queries[x].second = 0;
+        queries.insert({x, {i, 0}});
     }
     dsu d(2e5);
     int it = 0;
@@ -78,16 +57,14 @@ int32_t main() {
             int a = d.find(u), b = d.find(v), sa = d.sz[a], sb = d.sz[b];
             d.join(a, b);
             ans = ans + ((sa + sb) * (sa + sb - 1)) / 2 - (sa * (sa - 1)) / 2 - (sb * (sb - 1)) / 2;
-            i.second = ans;
             it++;
         }
-    }
-    for(auto &[a,b] : tree) {
-        debug(b.first, b.second, d.find(b.first), d.find(b.second));
+        i.second = ans;
     }
     vector<int> out(m);
-    for(auto &[a, b] : queries)
+    for(auto &[a, b] : queries) {
         out[b.first] = b.second;
+    }
     for(int i = 0; i < m; i++)
         cout << out[i] << " ";
     cout << endl;
